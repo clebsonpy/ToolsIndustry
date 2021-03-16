@@ -1,0 +1,3 @@
+-r base.txt
+
+# Adicionamos aqui as packages somente utilizada no ambiente de desenvolvimento.

@@ -1,0 +1,52 @@
+version: '3'
+
+services:
+  api:
+    build:
+      context: .
+      args:
+        - DJANGO_ENV=dev
+    volumes:
+      - .:/backend
+      - site-packages:/usr/local/lib/python3.8/site-packages
+      - bin:/usr/local/bin
+    ports:
+      - 8000:8000
+    env_file: .env
+    command: wait-for-it --timeout=20 postgres:5432 -- python manage.py runserver 0.0.0.0:8000
+    depends_on:
+      - postgres
+
+  postgres_default:
+    image: postgres:12.6-alpine
+    volumes:
+      - postgres-data-default:/var/lib/postgresql
+    environment:
+      POSTGRES_DB: $POSTGRES_DB_DEFAULT
+      POSTGRES_USER: $POSTGRES_USER
+      POSTGRES_PASSWORD: $POSTGRES_PASSWORD
+    ports:
+      - 5432:5432
+
+  postgres:
+    image: postgres:12.6-alpine
+    volumes:
+      - postgres-data:/var/lib/postgresql
+    environment:
+      POSTGRES_DB: $POSTGRES_DB
+      POSTGRES_USER: $POSTGRES_USER
+      POSTGRES_PASSWORD: $POSTGRES_PASSWORD
+    ports:
+      - 5433:5432
+
+  redis:
+    image: redis:6-alpine
+    volumes:
+      - redis-data:/data
+
+volumes:
+  site-packages:
+  bin:
+  postgres-data-default:
+  postgres-data:
+  redis-data:

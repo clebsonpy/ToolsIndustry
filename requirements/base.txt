@@ -1,5 +1,6 @@
 django==3.1.*
 dj_database_url==0.5.*
-psycopg2-binary==2.8.6
+psycopg2-binary==2.8.*
 djangorestframework==3.12.*
 django-redis==4.12.*
+pyyaml==5.4.*

@@ -1,3 +1,7 @@
+from django.utils.decorators import method_decorator
+from django.views.decorators.cache import cache_page
+from django.conf import settings
+
 from .models import Client, Industry, Instruments
 from .serializers import ClientSerializer, IndustryListSerializer, IndustryCreateSerializer, InstrumentsSerializer
 
@@ -77,6 +81,10 @@ class IndustryViewSet(ModelViewSet):
 
         except Exception:
             return Response(status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+
+    @method_decorator(cache_page(settings.CACHE_TTL))
+    def dispatch(self, *args, **kwargs):
+        return super(IndustryViewSet, self).dispatch(*args, **kwargs)
 
 
 class InstrumentsViewSet(ModelViewSet):

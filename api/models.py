@@ -17,7 +17,7 @@ class Industry(models.Model):
     name = models.CharField(verbose_name="Nome", max_length=100, blank=False, null=False)
     latitude = models.FloatField(verbose_name="Latitude", blank=False, null=False)
     longitude = models.FloatField(verbose_name="Longitude", blank=False, null=False)
-    id_cli = models.ForeignKey("Client", on_delete=models.CASCADE, related_name="related_clint_industry")
+    client = models.ForeignKey("Client", on_delete=models.CASCADE, related_name="client")
 
     class Meta:
         app_label = 'api'
@@ -36,7 +36,8 @@ class Instruments(models.Model):
     install_height = models.FloatField(verbose_name="Cota instalação", blank=False, null=False)
     equation = models.FloatField(verbose_name="Equação", blank=False, null=False)
     attention_value = models.FloatField(verbose_name="Valor atenção", blank=False, null=False)
-    id_ind = models.ForeignKey("Industry", verbose_name="Indústria", on_delete=models.CASCADE, related_name="related_industry_instruments")
+    id_ind = models.ForeignKey("Industry", verbose_name="Indústria", on_delete=models.CASCADE,
+                               related_name="industry_instruments")
 
     class Meta:
         app_label = 'api'

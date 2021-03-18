@@ -34,8 +34,8 @@ class ClientAdmin(MultiDBModelAdmin):
 
 @admin.register(Industry)
 class IndustryAdmin(MultiDBModelAdmin):
-    list_display = ['id_ind', 'name', 'latitude', 'longitude', 'id_cli']
-    list_filter = ['id_cli']
+    list_display = ['id_ind', 'name', 'latitude', 'longitude', 'client']
+    list_filter = ['client']
 
 
 @admin.register(Instruments)

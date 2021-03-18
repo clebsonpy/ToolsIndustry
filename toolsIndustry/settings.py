@@ -16,7 +16,6 @@ from pathlib import Path
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
-print(BASE_DIR)
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/3.1/howto/deployment/checklist/
 
@@ -42,7 +41,7 @@ DJANGO_APPS = [
 ]
 
 LOCAL_APPS = [
-
+    'api',
 ]
 
 THIRD_PARTY_APPS = [
@@ -95,10 +94,20 @@ DATABASES = {
         f'postgresql://{POSTGRES_USER}:{POSTGRES_PASSWORD}@postgres_default:5432/{POSTGRES_DB_DEFAULT}',
         conn_max_age=600,
     ),
-    'postgres': dj_database_url.parse(
-        f'postgresql://{POSTGRES_USER}:{POSTGRES_PASSWORD}@postgres:5433/{POSTGRES_DB}',
+    'api_db': dj_database_url.parse(
+        f'postgresql://{POSTGRES_USER}:{POSTGRES_PASSWORD}@postgres:5432/{POSTGRES_DB}',
         conn_max_age=600,
     ),
+}
+
+CACHES = {
+    'default': {
+        'BACKEND': 'django_redis.cache.RedisCache',
+        'LOCATION': 'redis://redis:6379/',
+        'OPTIONS': {
+            'CLIENT_CLASS': 'django_redis.client.DefaultClient',
+        }
+    }
 }
 
 # Password validation
@@ -125,7 +134,7 @@ AUTH_PASSWORD_VALIDATORS = [
 
 LANGUAGE_CODE = 'pt-br'
 
-TIME_ZONE = 'America/Maceio'
+TIME_ZONE = 'UTC'
 
 USE_I18N = True
 
@@ -153,3 +162,6 @@ REST_FRAMEWORK = {
 IMPORT_EXPORT_USE_TRANSACTIONS = True
 DATA_UPLOAD_MAX_MEMORY_SIZE = 100000000
 DATA_UPLOAD_MAX_NUMBER_FIELDS = 100000000
+
+DATABASE_ROUTERS = ['toolsIndustry.router.DatabaseRouter']
+DATABASE_APPS_MAPPING = {'api': 'api_db'}

@@ -15,7 +15,9 @@ services:
     env_file: .env
     command: wait-for-it --timeout=20 postgres:5432 -- python manage.py runserver 0.0.0.0:8000
     depends_on:
+      - postgres_default
       - postgres
+      - redis
 
   postgres_default:
     image: postgres:12.6-alpine
@@ -43,6 +45,8 @@ services:
     image: redis:6-alpine
     volumes:
       - redis-data:/data
+    ports:
+      - 6379:6379
 
 volumes:
   site-packages:
